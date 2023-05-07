@@ -1,35 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import InsertForm from "./components/InsertForm";
 import ListView from "./components/ListView";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
+  const isLimitReached = useMemo(() => {
+    return todoList.length >= 10;
+  }, [todoList]);
 
   const handleInsert = (value) => {
     setTodoList((current) => {
-      const newTodoList = [...current];
-      newTodoList.push({
+      const newList = [...current];
+      newList.push({
         key: new Date().getTime(),
-        value: value,
+        value,
         isCompleted: false,
       });
-      return newTodoList;
+      return newList;
     });
   };
 
   const handleComplete = (index) => {
     setTodoList((current) => {
-      const newTodoList = [...current];
-      newTodoList[index].isCompleted = true;
-      return newTodoList;
+      const newList = [...current];
+      newList[index].isCompleted = true;
+      return newList;
     });
   };
 
   const handleRemove = (index) => {
     setTodoList((current) => {
-      const newTodoList = [...current];
-      newTodoList.splice(index, 1);
-      return newTodoList;
+      const newList = [...current];
+      newList.splice(index, 1);
+      return newList;
     });
   };
 
@@ -40,7 +43,20 @@ function App() {
         onComplete={handleComplete}
         onRemove={handleRemove}
       />
-      <InsertForm onInsert={handleInsert} />
+      {isLimitReached && (
+        <div
+          style={{
+            padding: "8px 16px",
+            border: "1px solid #FA466A",
+            backgroundColor: "#feecf0",
+            color: "#FA466A",
+            marginBottom: 16,
+          }}
+        >
+          ※ 할일 목록이 너무 많습니다.
+        </div>
+      )}
+      <InsertForm onInsert={handleInsert} disabled={isLimitReached} />
     </div>
   );
 }

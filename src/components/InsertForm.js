@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
-export default function InsertForm({ onInsert }) {
+const InsertForm = ({ onInsert, disabled }) => {
   const [inputValue, setInputValue] = useState("");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (typeof onInsert === "function") onInsert(inputValue);
-    setInputValue("");
-  };
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault(); // 기본적인 HTML 동작으로 인해 페이지가 새로고침 되는 것을 방지
+      if (typeof onInsert === "function" && inputValue) {
+        // onInsert가 정상적인 함수인 지 확인하여 에러 방지
+        onInsert(inputValue);
+      }
+      setInputValue("");
+    },
+    [onInsert, inputValue]
+  );
 
   return (
     <form
@@ -22,28 +28,32 @@ export default function InsertForm({ onInsert }) {
     >
       <input
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={(event) => {
+          setInputValue(event.target.value);
+        }}
         style={{
           flex: 1,
           border: "none",
           color: "#000000",
           padding: "6px 12px",
-          backgroundColor: "transparent",
         }}
+        disabled={disabled}
       />
       <button
         type="submit"
         style={{
           border: "none",
           borderRadius: 16,
-          backgroundColor: "#3aab6bc",
-          color: "#ffffff",
+          backgroundColor: "#3ab6bc",
           cursor: "pointer",
           padding: "8px 16px",
+          color: "#ffffff",
         }}
       >
         등록
       </button>
     </form>
   );
-}
+};
+
+export default InsertForm;

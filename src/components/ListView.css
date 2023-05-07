@@ -21,10 +21,7 @@
 .listview ol li span {
   float: left;
   font-size: 16px;
-}
-
-.listview ol li.completed span {
-  text-decoration: line-through;
+  position: relative;
 }
 
 .listview ol li button {
@@ -39,4 +36,19 @@
 
 .listview ol li button.remove {
   background-color: #fa466a;
+}
+
+.listview ol li span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transition: width 0.2s ease-in-out;
+  width: 0%;
+  height: 3px;
+  background-color: #524fa1;
+}
+
+.listview ol li.completed span::after {
+  width: 100%;
 }
