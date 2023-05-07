@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import InsertForm from "./components/InsertForm";
+import ListView from "./components/ListView";
 
 function App() {
+  const [todoList, setTodoList] = useState([]);
+  const handleInsert = (value) => {
+    setTodoList((current) => {
+      const newTodoList = [...current];
+      newTodoList.push({
+        key: new Date().getTime(),
+        value: value,
+        isCompleted: false,
+      });
+      return newTodoList;
+    });
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ListView todoList={todoList} />
+      <InsertForm onInsert={handleInsert} />
     </div>
   );
 }
