@@ -1,13 +1,17 @@
 import React from "react";
+import "./ListView.css";
 
 export default function ListView({ todoList, onComplete, onRemove }) {
   return (
-    <div>
+    <div className="listview">
       <ol>
         {todoList &&
           todoList.map((todo, index) => {
             return (
-              <li key={todo.key}>
+              <li
+                key={todo.key}
+                className={todo.isCompleted ? "" : "completed"}
+              >
                 <span>{todo.value}</span>
                 <button
                   type="button"
@@ -18,6 +22,7 @@ export default function ListView({ todoList, onComplete, onRemove }) {
                   완료
                 </button>
                 <button
+                  className="remove"
                   type="button"
                   onClick={() => {
                     if (typeof onComplete === "function") onRemove(index);

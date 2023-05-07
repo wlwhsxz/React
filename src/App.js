@@ -20,7 +20,7 @@ function App() {
   const handleComplete = (index) => {
     setTodoList((current) => {
       const newTodoList = [...current];
-      newTodoList[index].isCompleted = !newTodoList[index].isCompleted;
+      newTodoList[index].isCompleted = true;
       return newTodoList;
     });
   };
